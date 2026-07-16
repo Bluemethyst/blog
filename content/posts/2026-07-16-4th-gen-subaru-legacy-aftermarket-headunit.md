@@ -10,7 +10,6 @@ tags:
   - legacy
   - audio
   - electronics
-coverImage: /media/Snapchat-697447480.jpg
 draft: false
 ---
 ## Goal
@@ -24,6 +23,8 @@ This is a starter post for the car side of the notebook. The real writeup can gr
 - Steering wheel control behavior.
 - Any fascia or bracket fitment quirks.
 - Before and after notes on sound, Bluetooth, and day-to-day usability.
+
+![](/media/Snapchat-697447480.jpg)
 
 ## Running notes
 
