@@ -1,8 +1,9 @@
 ---
-title: Minecraft build log template
-excerpt: A lightweight format for turning screenshots, material lists, and build decisions into repeatable project logs.
+title: Minecraft build note template
+excerpt: A lightweight format for turning screenshots, material lists, and build decisions into repeatable project notes.
 date: 2026-07-16
 category: Minecraft
+status: Reference
 tags:
   - minecraft
   - notes

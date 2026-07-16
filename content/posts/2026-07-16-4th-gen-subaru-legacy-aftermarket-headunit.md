@@ -1,8 +1,9 @@
 ---
-title: 4th gen Subaru Legacy aftermarket head unit notes
+title: 4th gen Subaru Legacy aftermarket head unit
 excerpt: Early notes for documenting a cleaner aftermarket head unit install in a fourth generation Subaru Legacy.
 date: 2026-07-16
 category: Cars
+status: Project note
 tags:
   - subaru
   - legacy
@@ -13,7 +14,7 @@ draft: false
 
 ## Goal
 
-This is a starter post for the car side of the log. The real writeup can grow into parts lists, wiring notes, photos, gotchas, and the final install path.
+This is a starter post for the car side of the notebook. The real writeup can grow into parts lists, wiring notes, photos, gotchas, and the final install path.
 
 ## Things to capture
 

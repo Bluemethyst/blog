@@ -12,6 +12,7 @@ const posts = defineCollection({
     category: z
       .enum(["Cars", "Technology", "Tutorials", "Minecraft", "Notes"])
       .default("Notes"),
+    status: z.string().optional(),
     tags: z.array(z.string()).default([]),
     coverImage: z.string().optional(),
     draft: z.boolean().default(false),

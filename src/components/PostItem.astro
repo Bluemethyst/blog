@@ -1,0 +1,28 @@
+---
+import Icon from "./Icon.astro";
+import { formatPostDate, type PublishedPost } from "../lib/posts";
+
+interface Props {
+  post: PublishedPost;
+}
+
+const { post } = Astro.props;
+---
+
+<article class="post-item">
+  <a href={`/posts/${post.id}/`}>
+    <span class="post-icon" aria-hidden="true">
+      {post.data.category === "Cars" ? <Icon name="car" /> : post.data.category === "Minecraft" ? <Icon name="cube" /> : <Icon name="chip" />}
+    </span>
+    <span class="post-copy">
+      <span class="meta">
+        {post.data.category}
+        <span aria-hidden="true">/</span>
+        {formatPostDate(post.data.date)}
+      </span>
+      <strong>{post.data.title}</strong>
+      <span>{post.data.excerpt}</span>
+    </span>
+    <Icon name="arrow" />
+  </a>
+</article>

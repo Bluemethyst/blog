@@ -1,79 +1,84 @@
 ---
-import "mdui/mdui.css";
+import Icon from "../components/Icon.astro";
 import "../styles/global.css";
 
 interface Props {
-  title?: string;
-  description?: string;
+    title?: string;
+    description?: string;
 }
 
-const siteName = "Everything Log";
+const siteName = "Everything Notebook";
 const {
-  title = siteName,
-  description = "Cars, tools, tutorials, technology notes, Minecraft builds, and the messy middle of learning things.",
+    title = siteName,
+    description = "Cars, electronics, Minecraft, tools, fixes, and small notes from everything I do.",
 } = Astro.props;
 
-const pageTitle = title === siteName ? siteName : `${title} | ${siteName}`;
+const pageTitle = title === siteName ? siteName : `${title} / ${siteName}`;
 ---
 
 <!doctype html>
-<html lang="en" class="mdui-theme-dark">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="description" content={description} />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="generator" content={Astro.generator} />
-    <title>{pageTitle}</title>
-  </head>
-  <body>
-    <mdui-layout>
-      <mdui-top-app-bar class="site-topbar" scroll-behavior="elevate">
-        <mdui-button-icon class="drawer-toggle" icon="menu" aria-label="Open navigation"></mdui-button-icon>
-        <mdui-top-app-bar-title>
-          <a class="brand" href="/" aria-label="Everything Log home">
-            <span class="brand-mark">EL</span>
-            <span>Everything Log</span>
-          </a>
-        </mdui-top-app-bar-title>
-        <nav class="top-links" aria-label="Primary navigation">
-          <a href="/posts/">Posts</a>
-          <a href="/tags/">Tags</a>
-          <a href="/about/">About</a>
-        </nav>
-      </mdui-top-app-bar>
+<html lang="en" data-theme="dark">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="description" content={description} />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="generator" content={Astro.generator} />
+        <meta name="color-scheme" content="dark light" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,wght@6..144,300..800&display=swap"
+            rel="stylesheet"
+        />
+        <title>{pageTitle}</title>
+        <script is:inline>
+            const storedTheme = localStorage.getItem("theme");
+            const systemLight = window.matchMedia(
+                "(prefers-color-scheme: light)",
+            ).matches;
+            document.documentElement.dataset.theme =
+                storedTheme || (systemLight ? "light" : "dark");
+        </script>
+    </head>
+    <body>
+        <header class="site-header">
+            <nav aria-label="Primary navigation">
+                <a href="/">home</a>
+                <a href="/posts/">posts</a>
+                <a href="/tags/">tags</a>
+                <a href="/about/">about</a>
+            </nav>
+            <button
+                class="theme-toggle"
+                type="button"
+                aria-label="Toggle color theme"
+                title="Toggle theme"
+            >
+                <span class="theme-sun"><Icon name="sun" /></span>
+                <span class="theme-moon"><Icon name="moon" /></span>
+            </button>
+        </header>
 
-      <mdui-navigation-drawer class="site-drawer" close-on-overlay-click>
-        <div class="drawer-brand">
-          <span class="brand-mark">EL</span>
-          <div>
-            <strong>Everything Log</strong>
-            <span>Garage notes, tech trails, builds.</span>
-          </div>
-        </div>
-        <mdui-list>
-          <mdui-list-item href="/" icon="home">Home</mdui-list-item>
-          <mdui-list-item href="/posts/" icon="article">Posts</mdui-list-item>
-          <mdui-list-item href="/tags/" icon="sell">Tags</mdui-list-item>
-          <mdui-list-item href="/about/" icon="person">About</mdui-list-item>
-        </mdui-list>
-      </mdui-navigation-drawer>
-
-      <mdui-layout-main>
-        <main class="page-shell">
-          <slot />
+        <main class="page">
+            <slot />
         </main>
-      </mdui-layout-main>
-    </mdui-layout>
 
-    <script>
-      import "mdui";
+        <footer class="site-footer">
+            <span>Everything Notebook</span>
+            <span>cars / electronics / more</span>
+        </footer>
 
-      const drawer = document.querySelector(".site-drawer");
-      const toggle = document.querySelector(".drawer-toggle");
+        <script>
+            const toggle =
+                document.querySelector<HTMLButtonElement>(".theme-toggle");
 
-      toggle?.addEventListener("click", () => {
-        drawer?.toggleAttribute("open");
-      });
-    </script>
-  </body>
+            toggle?.addEventListener("click", () => {
+                const html = document.documentElement;
+                const nextTheme =
+                    html.dataset.theme === "dark" ? "light" : "dark";
+                html.dataset.theme = nextTheme;
+                localStorage.setItem("theme", nextTheme);
+            });
+        </script>
+    </body>
 </html>

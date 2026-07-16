@@ -1,27 +1,29 @@
 ---
+import PostItem from "../../components/PostItem.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import PostCard from "../../components/PostCard.astro";
 import { getAllTags, getPublishedPosts } from "../../lib/posts";
 
 export async function getStaticPaths() {
   const posts = await getPublishedPosts();
   return getAllTags(posts).map((tag) => ({
     params: { tag },
-    props: { tag, posts: posts.filter((post) => post.data.tags.includes(tag)) },
+    props: {
+      tag,
+      posts: posts.filter((post) => post.data.tags.includes(tag)),
+    },
   }));
 }
 
 const { tag, posts } = Astro.props;
 ---
 
-<BaseLayout title={`#${tag}`} description={`Everything Log posts tagged ${tag}.`}>
-  <section class="page-header">
-    <p class="eyebrow">Tagged</p>
+<BaseLayout title={`#${tag}`} description={`Posts tagged ${tag}.`}>
+  <section class="page-head">
+    <p class="kicker">tag</p>
     <h1>#{tag}</h1>
-    <p>{posts.length} {posts.length === 1 ? "entry" : "entries"} filed here.</p>
   </section>
 
-  <section class="post-grid archive-grid">
-    {posts.map((post) => <PostCard post={post} />)}
-  </section>
+  <div class="post-list">
+    {posts.map((post) => <PostItem post={post} />)}
+  </div>
 </BaseLayout>

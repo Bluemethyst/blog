@@ -35,6 +35,10 @@ content:
             - Tutorials
             - Minecraft
             - Notes
+      - name: status
+        label: Status
+        type: string
+        required: false
       - name: tags
         label: Tags
         type: select

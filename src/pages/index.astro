@@ -1,72 +1,64 @@
 ---
+import Icon from "../components/Icon.astro";
+import PostItem from "../components/PostItem.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
-import PostCard from "../components/PostCard.astro";
-import { getAllTags, getPublishedPosts } from "../lib/posts";
+import { getCategoryCounts, getPublishedPosts } from "../lib/posts";
 
 const posts = await getPublishedPosts();
-const featured = posts[0];
-const recent = posts.slice(1, 5);
-const tags = getAllTags(posts).slice(0, 12);
+const latest = posts.slice(0, 4);
+const categoryCounts = getCategoryCounts(posts);
+const categories = ["Cars", "Technology", "Minecraft", "Notes"].filter(
+    (category) => categoryCounts[category],
+);
 ---
 
 <BaseLayout>
-  <section class="hero">
-    <div class="hero-copy">
-      <p class="eyebrow">Personal archive / build notebook</p>
-      <h1>Everything I learn, break, fix, tune, wire, build, and overthink.</h1>
-      <p>
-        Cars, tutorials, technology, Minecraft builds, notes from the bench, and the
-        little discoveries worth saving for the next round.
-      </p>
-      <div class="hero-actions">
-        <mdui-button href="/posts/" variant="filled">Read the log</mdui-button>
-        <mdui-button href="/about/" variant="outlined">What this is</mdui-button>
-      </div>
-    </div>
-    <div class="hero-panel" aria-label="Site topics">
-      <div class="panel-line"><span>Cars</span><strong>Subaru notes, installs, diagnostics</strong></div>
-      <div class="panel-line"><span>Tech</span><strong>Tools, homelab, software, fixes</strong></div>
-      <div class="panel-line"><span>Builds</span><strong>Minecraft worlds and project logs</strong></div>
-      <div class="panel-glow"></div>
-    </div>
-  </section>
+    <section class="intro">
+        <p class="kicker">personal notebook</p>
+        <h1>everything i do.</h1>
+        <p>Cars, electronics, fixes, tests, and notes worth finding again.</p>
+        <div class="quick-links" aria-label="Quick links">
+            <a href="/posts/"><Icon name="archive" /> archive</a>
+            <a href="/tags/"><Icon name="tag" /> tags</a>
+        </div>
+    </section>
 
-  {featured ? (
-    <section class="section-block">
-      <div class="section-heading">
-        <p class="eyebrow">Latest entry</p>
-        <h2>Fresh from the notebook</h2>
-      </div>
-      <PostCard post={featured} featured />
-    </section>
-  ) : (
-    <section class="empty-state">
-      <h2>No posts yet</h2>
-      <p>Add a Markdown post in Pages CMS and it will appear here automatically.</p>
-    </section>
-  )}
+    <section class="section">
+        <div class="section-title">
+            <h2>latest</h2>
+            <a href="/posts/">all posts</a>
+        </div>
 
-  {recent.length > 0 && (
-    <section class="section-block">
-      <div class="section-heading">
-        <p class="eyebrow">Recent</p>
-        <h2>More entries</h2>
-      </div>
-      <div class="post-grid">
-        {recent.map((post) => <PostCard post={post} />)}
-      </div>
+        {
+            latest.length > 0 ? (
+                <div class="post-list">
+                    {latest.map((post) => (
+                        <PostItem post={post} />
+                    ))}
+                </div>
+            ) : (
+                <p class="empty">
+                    Add a post in PagesCMS and it will show up here.
+                </p>
+            )
+        }
     </section>
-  )}
 
-  {tags.length > 0 && (
-    <section class="section-block topic-strip">
-      <div>
-        <p class="eyebrow">Index</p>
-        <h2>Follow a thread</h2>
-      </div>
-      <div class="tag-cloud">
-        {tags.map((tag) => <a href={`/tags/${tag}/`}>#{tag}</a>)}
-      </div>
-    </section>
-  )}
+    {
+        categories.length > 0 && (
+            <section class="section">
+                <div class="section-title">
+                    <h2>threads</h2>
+                </div>
+                <div class="topic-list">
+                    {categories.map((category) => (
+                        <span>
+                            {category}
+                            <small>{categoryCounts[category]}</small>
+                        </span>
+                    ))}
+                </div>
+            </section>
+        )
+    }
 </BaseLayout>
