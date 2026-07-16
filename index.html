@@ -1,0 +1,33 @@
+---
+layout: default
+title: Home
+---
+
+{% assign posts = site.pages | where_exp: "item", "item.path contains 'content/posts/' and item.path contains '.md'" | sort: "path" | reverse %}
+
+<section class="intro">
+  <div>
+    <p class="eyebrow">Workshop notes</p>
+    <h1>Bluemethyst Blog</h1>
+    <p class="lede">Repairs, installs, and the useful details worth keeping around.</p>
+  </div>
+</section>
+
+<section class="posts" aria-labelledby="posts-heading">
+  <h2 id="posts-heading">Posts</h2>
+
+  {% if posts.size > 0 %}
+    <ol class="post-list">
+      {% for post in posts %}
+        <li>
+          <a href="{{ post.url | relative_url }}">
+            <span class="post-title">{{ post.Title | default: post.title }}</span>
+            <span class="post-summary">{{ post.Body | default: post.content | strip_html | truncate: 160 }}</span>
+          </a>
+        </li>
+      {% endfor %}
+    </ol>
+  {% else %}
+    <p>No posts yet.</p>
+  {% endif %}
+</section>
