@@ -1,0 +1,79 @@
+---
+import "mdui/mdui.css";
+import "../styles/global.css";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const siteName = "Everything Log";
+const {
+  title = siteName,
+  description = "Cars, tools, tutorials, technology notes, Minecraft builds, and the messy middle of learning things.",
+} = Astro.props;
+
+const pageTitle = title === siteName ? siteName : `${title} | ${siteName}`;
+---
+
+<!doctype html>
+<html lang="en" class="mdui-theme-dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content={description} />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{pageTitle}</title>
+  </head>
+  <body>
+    <mdui-layout>
+      <mdui-top-app-bar class="site-topbar" scroll-behavior="elevate">
+        <mdui-button-icon class="drawer-toggle" icon="menu" aria-label="Open navigation"></mdui-button-icon>
+        <mdui-top-app-bar-title>
+          <a class="brand" href="/" aria-label="Everything Log home">
+            <span class="brand-mark">EL</span>
+            <span>Everything Log</span>
+          </a>
+        </mdui-top-app-bar-title>
+        <nav class="top-links" aria-label="Primary navigation">
+          <a href="/posts/">Posts</a>
+          <a href="/tags/">Tags</a>
+          <a href="/about/">About</a>
+        </nav>
+      </mdui-top-app-bar>
+
+      <mdui-navigation-drawer class="site-drawer" close-on-overlay-click>
+        <div class="drawer-brand">
+          <span class="brand-mark">EL</span>
+          <div>
+            <strong>Everything Log</strong>
+            <span>Garage notes, tech trails, builds.</span>
+          </div>
+        </div>
+        <mdui-list>
+          <mdui-list-item href="/" icon="home">Home</mdui-list-item>
+          <mdui-list-item href="/posts/" icon="article">Posts</mdui-list-item>
+          <mdui-list-item href="/tags/" icon="sell">Tags</mdui-list-item>
+          <mdui-list-item href="/about/" icon="person">About</mdui-list-item>
+        </mdui-list>
+      </mdui-navigation-drawer>
+
+      <mdui-layout-main>
+        <main class="page-shell">
+          <slot />
+        </main>
+      </mdui-layout-main>
+    </mdui-layout>
+
+    <script>
+      import "mdui";
+
+      const drawer = document.querySelector(".site-drawer");
+      const toggle = document.querySelector(".drawer-toggle");
+
+      toggle?.addEventListener("click", () => {
+        drawer?.toggleAttribute("open");
+      });
+    </script>
+  </body>
+</html>

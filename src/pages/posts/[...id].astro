@@ -1,0 +1,53 @@
+---
+import { getCollection, render } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { formatPostDate } from "../../lib/posts";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("posts", ({ data }) => {
+    return import.meta.env.PROD ? data.draft !== true : true;
+  });
+
+  return posts.map((post) => ({
+    params: { id: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content, headings } = await render(post);
+---
+
+<BaseLayout title={post.data.title} description={post.data.excerpt}>
+  <article class="article-layout">
+    <header class="article-header">
+      <div class="post-meta">
+        <span>{post.data.category}</span>
+        <span>{formatPostDate(post.data.date)}</span>
+      </div>
+      <h1>{post.data.title}</h1>
+      <p>{post.data.excerpt}</p>
+      <div class="tag-row">
+        {post.data.tags.map((tag) => <a href={`/tags/${tag}/`}>#{tag}</a>)}
+      </div>
+    </header>
+
+    {post.data.coverImage && (
+      <img class="article-cover" src={post.data.coverImage} alt="" loading="eager" />
+    )}
+
+    <div class="article-grid">
+      {headings.length > 1 && (
+        <aside class="toc" aria-label="Table of contents">
+          <strong>In this post</strong>
+          {headings.filter((heading) => heading.depth <= 3).map((heading) => (
+            <a href={`#${heading.slug}`}>{heading.text}</a>
+          ))}
+        </aside>
+      )}
+      <div class="prose">
+        <Content />
+      </div>
+    </div>
+  </article>
+</BaseLayout>
